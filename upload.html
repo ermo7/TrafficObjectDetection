@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dissertation AI Project</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #000000; /* Black background */
+            background-image: url("{{ url_for('static', filename='UoBD Garden.jpeg') }}");
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+            color: #fff;
+        }
+        .overlay {
+            background-color: rgba(128, 128, 128, 0.7); /* Semi-transparent overlay on gray */
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            z-index: 1;
+        }
+        .logo {
+            width: 250px;
+            margin-bottom: 20px;
+            z-index: 10;
+        }
+        .upload-container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 450px;
+            text-align: center;
+            z-index: 10;
+        }
+        .upload-container h2 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+        .upload-container h3 {
+            margin-bottom: 20px;
+            color: #666;
+        }
+        .upload-container .btn {
+            width: 100%;
+            background-color: #007BFF;
+            color: #fff;
+            border: none;
+        }
+        .upload-container .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+<img src="{{ url_for('static', filename='UoBD Logo.jpg') }}" class="logo" alt="University of Birmingham Dubai Logo">
+<h2></h2>
+<h2></h2>
+<div class="overlay"></div>
+
+<div class="upload-container">
+    <h2>Dissertation AI Project</h2>
+    <h3>Unleash Your Video Potential! Upload and Annotate!</h3>
+    <form method="POST" enctype="multipart/form-data">
+        <div class="form-group">
+            <select name="model_choice" class="form-control" required>
+                <option value="YOLOv8n_PreTrained_Model">Pretrained YOLOv8n Model</option>
+                <option value="YOLOv8n_Custom_Trained_Model">YOLOv8n 21_Classes Custom Trained Model</option>
+                <option value="YOLOv8m">YOLOv8 Medium Model</option>
+                <option value="YOLOv8l">YOLOv8 Large Model</option>
+                <option value="YOLOv8n_Custom_One Class_Trained_Model">YOLOv8n One_Class Custom Trained_Model</option>
+            </select>
+        </div>
+        <input type="file" name="video" class="form-control-file mb-3" accept="video/*" required>
+        <button type="submit" class="btn btn-primary">Upload</button>
+    </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>

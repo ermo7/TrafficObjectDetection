@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processed Video</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #1E4EB8;
+            padding: 20px;
+        }
+        .container-fluid {
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .card {
+            margin-top: 20px;
+        }
+        .video-container {
+            margin-bottom: 20px;
+        }
+        .btn-toggle {
+            margin-bottom: 10px;
+        }
+        .traffic-density {
+            padding: 10px;
+            border-radius: 5px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        /* Log section styles */
+        .log-container {
+            background-color: #f9f9f9;
+            padding: 15px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            font-family: monospace;
+            color: #555;
+            white-space: pre-wrap;
+            margin-bottom: 5px;
+        }
+        .btn-upload-another {
+            margin-top: 20px;
+            background-color: #007BFF;
+            color: white;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8 video-container">
+            <h2>Processed Video</h2>
+            <video width="100%" controls>
+                <source src="{{ url_for('static', filename='processed/' + filename) }}" type="video/mp4">
+                Your browser does not support the video tag.
+            </video>
+
+            <!-- Log Section -->
+            <div class="log-container">
+                <h5>Processing Logs:</h5>
+                {% for log_entry in logs %}
+                    <div class="log-entry">{{ log_entry }}</div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <h2>Traffic Density Report</h2>
+            <button class="btn btn-info btn-toggle" data-toggle="collapse" data-target="#reportContent">Toggle Report</button>
+            <div id="reportContent" class="collapse show">
+                <!-- Loop through each segment and display its metrics -->
+                {% for segment in report %}
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">Segment {{ loop.index }} (Start Frame: {{ segment.start_frame }}):</h5>
+                            <h5 class="card-title">Traffic Density:
+                                <span class="traffic-density" style="background-color: {{ segment.traffic_density_color }}">
+                                {{ segment.traffic_density_level }}
+                            </span>
+                            </h5>
+                            <p class="card-text">Total Vehicles: {{ segment.total_vehicles }}</p>
+                            <p class="card-text">Average Speed: {{ "%.1f"|format(segment.avg_speed) }} km/h</p>
+                            <h6>Vehicle Types:</h6>
+                            <ul>
+                                {% for vehicle, count in segment.vehicle_types.items() %}
+                                    <li>{{ vehicle }}: {{ count }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <br>
+    <a href="/" class="btn btn-secondary btn-upload-another">Upload Another Video</a>
+</div>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+</body>
+</html>
